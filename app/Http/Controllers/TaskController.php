@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\StoreTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Resources\TaskResource;
 
 class TaskController extends Controller
 {
+
+
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +26,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        // get all tasks
-        $tasks = Task::paginate(10);
+        $tasks = auth()->user()->tasks()->orderBy('created_at', 'desc')->paginate(10);
         return TaskResource::collection($tasks);
     }
 
@@ -26,9 +36,17 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        //
+
+            $task = auth()->user()->tasks()->create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'status' => 'todo',
+            ]);
+
+            return new TaskResource($task);
+
     }
 
     /**
@@ -39,7 +57,13 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+
+            if(auth()->user()->id !== $task->user_id){
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            return new TaskResource($task);
+
     }
 
     /**
@@ -49,9 +73,17 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+
+                if(auth()->user()->id !== $task->user_id){
+                    return response()->json(['error' => 'Unauthorized'], 401);
+                }
+
+                $task->update($request->only([ 'status']));
+
+                return new TaskResource($task);
+
     }
 
     /**
@@ -62,6 +94,13 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+
+                if(auth()->user()->id !== $task->user_id){
+                    return response()->json(['error' => 'Unauthorized'], 401);
+                }
+
+                $task->delete();
+
+                return response()->json(null, 204);
     }
 }

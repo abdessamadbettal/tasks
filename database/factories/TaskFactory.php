@@ -16,12 +16,12 @@ class TaskFactory extends Factory
      */
     public function definition()
     {
+        $users = \App\Models\User::all();
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'status' => $this->faker->randomElement(['todo', 'doing', 'done']),
-            'user_id' => $this->faker->numberBetween(1, 10),
-            'is_deleted' => $this->faker->boolean,
+            'user_id' => $users->random()->id,
         ];
     }
 }

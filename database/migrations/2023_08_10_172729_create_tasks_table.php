@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('status')->default('todo');
-            $table->boolean('is_deleted')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
