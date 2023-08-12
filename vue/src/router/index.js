@@ -1,6 +1,12 @@
 import {createRouter, createWebHistory} from "vue-router";
-
-const routes = [];
+import Tasks from "../views/Tasks.vue";
+const routes = [
+    {
+        path: "/tasks",
+        name: "Tasks",
+        component: Tasks
+    },
+];
 
 const router = createRouter({
   history: createWebHistory(),
