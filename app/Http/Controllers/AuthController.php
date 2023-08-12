@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\RegisterRequest;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -29,10 +31,13 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorizedd'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return response([
+            'user' => new UserResource(auth()->user()),
+            'access_token' => $this->respondWithToken($token)->original['access_token'],
+        ]);
     }
 
     /**
@@ -43,9 +48,13 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $user = User::create($request->all());
-        $token = auth()->login($user);
-        return $this->respondWithToken($token);
+        $user = User::create(
+            $request->only('name', 'email')
+            + ['password' => Hash::make($request->input('password'))]
+        );
+        return response([
+            'user' => new UserResource($user),
+        ]);
     }
 
      /**
@@ -55,7 +64,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(new UserResource(auth()->user()));
     }
 
     /**
