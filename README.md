@@ -8,12 +8,19 @@ simple web application that allows users to create and manage a list of tasks us
 composer install
 ```
 
-make a .env file and set your db
+copy .env.example to .env and update the following lines to use mongoDB
+```
+DB_CONNECTION=mongodb
+DB_DATABASE=tasks_db
+DB_DSN=mongodb+srv://yourMongoDbUrl
+```
 
 then
 ```
 php artisan key:generate
 php artisan jwt:secret
+php artisan migrate
+php artisan db:seed
 ```
 
 # Usage
@@ -32,4 +39,8 @@ npm run dev
 
 Browse the website using
 http://localhost:5173
+
+# Postman Collection
+for postman collection you can find it here
+https://www.postman.com/crimson-crater-867589/workspace/tasks
 
