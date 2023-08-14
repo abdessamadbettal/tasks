@@ -1,0 +1,56 @@
+
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['8.1']
+    name: PHP ${{ matrix.php-versions }} test on ${{ matrix.operating-system }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: curl, gd, intl, mbstring, openssl, pdo, pdo_mysql, tokenizer, zip, mongodb
+
+      - name: Composer Install
+        run: |
+          set -e
+          composer install --no-cache
+
+      - name: Set Testing Environment
+        run: |
+          cp .env.example .env.testing
+          sed -i 's/DB_DATABASE=tasks_db/DB_DATABASE=tasks_test/g' .env.testing
+          sed -i 's/DB_DSN=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/DB_DSN=${{ secrets.DB_DSN_TESTING }}/g' .env.testing
+
+      - name: Key Generate
+        run: set -e && php artisan key:generate --env=testing
+
+      - name: Generate Jwt Secret
+        run: php artisan jwt:secret --force --env=testing
+
+      - name: Optimize Stuffs
+        run: set -e && php artisan optimize:clear --env=testing
+
+      - name: Migrate Database
+        run: set -e && php artisan migrate:fresh --env=testing
+
+      - name: Seed Database
+        run: set -e && php artisan db:seed --env=testing
+
+      - name: Run Tests
+        run: set -e && php artisan test --env=testing
+

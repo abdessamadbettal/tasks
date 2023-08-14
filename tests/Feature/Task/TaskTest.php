@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskTest extends TestCase
 {
-    public $headers;
+    public $headers = [];
     public $taskId ;
 
 
