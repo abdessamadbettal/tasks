@@ -6,6 +6,7 @@ simple web application that allows users to create and manage a list of tasks us
 
 ```
 composer install
+cp .env.example .env
 ```
 
 copy .env.example to .env and update the following lines to use mongoDB
@@ -39,6 +40,20 @@ npm run dev
 
 Browse the website using
 http://localhost:5173
+
+
+# Testing
+add your .env.testing file and update the following lines to use mongoDB
+```
+DB_DATABASE=tasks_db_test
+```
+
+then
+
+Run the tests
+```
+php artisan test
+```
 
 # Postman Collection
 for postman collection you can find it here

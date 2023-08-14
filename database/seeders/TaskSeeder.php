@@ -15,6 +15,6 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
-        Task::factory(99)->create();
+        Task::factory(20)->create();
     }
 }

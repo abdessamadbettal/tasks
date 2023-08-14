@@ -38,7 +38,7 @@
           <div
             id="task"
             v-if="task.status == 'done'"
-            class="flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4 border-l-transparent"
+            class="flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4 border-l-transparent bg-gradient-to-r from-transparent to-transparent hover:from-slate-100 transition ease-linear duration-150"
           >
             <div class="inline-flex items-center space-x-2">
               <div @click="updateTask(task)">
@@ -48,7 +48,7 @@
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6 text-slate-500"
+                  class="w-6 h-6 text-slate-500 hover:text-indigo-600 hover:cursor-pointer"
                 >
                   <path
                     stroke-linecap="round"
@@ -57,7 +57,11 @@
                   />
                 </svg>
               </div>
+              <div class="grid">
               <div class="text-slate-500 line-through">{{ task.title }}</div>
+              <div class="text-slate-500 line-through text-xs">{{task.description}}</div>
+
+              </div>
             </div>
             <div @click="deleteTask(task.id)">
               <svg
@@ -98,7 +102,10 @@
                   />
                 </svg>
               </div>
+              <div class="grid">
               <div>{{ task.title }}</div>
+              <div class="text-slate-500 text-xs">{{task.description}}</div>
+              </div>
             </div>
             <div @click="deleteTask(task.id)">
               <svg
@@ -119,7 +126,6 @@
           </div>
         </div>
       </div>
-      {{tasks.data}}
       <p class="text-xs text-slate-500 text-center">
         Last updated on {{ tasks.data.map((task) => task.updated_at)[0] }}
       </p>
