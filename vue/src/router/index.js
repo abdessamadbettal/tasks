@@ -5,6 +5,7 @@ import Register from "../views/Register.vue";
 import NotFound from "../views/NotFound.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
+import CreateTask from "../views/CreateTask.vue";
 import store from "../store";
 
 const routes = [
@@ -19,6 +20,12 @@ const routes = [
                 name: "Tasks",
                 component: Tasks,
             },
+            {
+                path: "/tasks/create",
+                name: "CreateTask",
+                component: CreateTask,
+
+            }
         ]
     },
     {

@@ -26,7 +26,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = auth()->user()->tasks()->orderBy('created_at', 'desc')->paginate(10);
+        $tasks = auth()->user()->tasks()->orderBy('created_at', 'desc')->get();
         return TaskResource::collection($tasks);
     }
 
