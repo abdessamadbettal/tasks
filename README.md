@@ -6,7 +6,6 @@ simple web application that allows users to create and manage a list of tasks us
 
 ```
 composer install
-npm install
 ```
 
 make a .env file and set your db
@@ -26,7 +25,8 @@ php artisan serve
 
 Run the front-end
 ```
-npm run install
+cd vue
+npm install
 npm run dev
 ```
 
