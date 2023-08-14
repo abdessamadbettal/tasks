@@ -26,7 +26,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = auth()->user()->tasks()->orderBy('created_at', 'desc')->get();
+        $tasks = auth()->user()->tasks()->orderBy('updated_at', 'desc')->get();
         return TaskResource::collection($tasks);
     }
 
@@ -80,7 +80,11 @@ class TaskController extends Controller
                     return response()->json(['error' => 'Unauthorized'], 401);
                 }
 
-                $task->update($request->only([ 'status']));
+                $task->update([
+                    'status' => $request->status,
+                    'updated_at' => now(),
+                ]);
+
 
                 return new TaskResource($task);
 

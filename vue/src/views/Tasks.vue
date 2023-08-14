@@ -119,8 +119,9 @@
           </div>
         </div>
       </div>
+      {{tasks.data}}
       <p class="text-xs text-slate-500 text-center">
-        Last updated 12 minutes ago
+        Last updated on {{ tasks.data.map((task) => task.updated_at)[0] }}
       </p>
     </div>
   </body>
