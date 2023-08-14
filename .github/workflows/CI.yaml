@@ -34,7 +34,7 @@ jobs:
         run: |
           cp .env.example .env.testing
           sed -i 's/DB_DATABASE=tasks_db/DB_DATABASE=tasks_test/g' .env.testing
-          sed -i 's/DB_DSN=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/DB_DSN=${{ secrets.DB_DSN_TESTING }}/g' .env.testing
+          sed -i 's/DB_DSN=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/DB_DSN=${{ secrets.DB_DSN }}/g' .env.testing
 
       - name: Key Generate
         run: set -e && php artisan key:generate --env=testing
