@@ -29,5 +29,9 @@ Route::group([
     Route::get('user', [AuthController::class,'me']);
 
 });
+// test route
+Route::get('/test', function () {
+    return response()->json(['message' => 'Hello World!'], 200);
+});
 
 Route::apiResource('tasks', TaskController::class);

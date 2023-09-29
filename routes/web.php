@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// web routes
+Route::get('/test', function () {
+    return response()->json(['message' => 'Hello World!'], 200);
+});
