@@ -1,5 +1,5 @@
 ## Laravel Vue Jwt tailwind mangoDb Example Project
-simple web application that allows users to create and manage a list of tasks using laravel , vue , tailwind , jwt, and mongoDB folowing best practices and coding standards and also CI CD
+simple web application that allows users to create and manage a list of tasks using laravel , vue , tailwind , jwt, and mongoDB folowing best practices and coding standards and also CI CD using github actions
 
 
 # Setup
