@@ -35,3 +35,5 @@ Route::get('/test', function () {
 });
 
 Route::apiResource('tasks', TaskController::class);
+
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
